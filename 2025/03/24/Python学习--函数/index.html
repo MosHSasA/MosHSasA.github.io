@@ -1,0 +1,395 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python学习--函数 | MosHSasA_Blog</title><meta name="author" content="MosHSasA"><meta name="copyright" content="MosHSasA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="函数 [!NOTE] 以下内容部分摘录自《Python编程快速上手——让繁琐的工作自动化（第二版）》，并加入了一些自己的理解，仅用于个人交流与学习，如涉及侵权请联系站长删除！  1. 函数定义与调用 语法：使用 def 关键字定义函数。  参数：函数可以接收参数（变元），参数在函数内部作为局部变量使用。  示例： 12345def hello(name):    print(&#x27;Hello">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习--函数">
+<meta property="og:url" content="http://moshsasa.github.io/2025/03/24/Python%E5%AD%A6%E4%B9%A0--%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="MosHSasA_Blog">
+<meta property="og:description" content="函数 [!NOTE] 以下内容部分摘录自《Python编程快速上手——让繁琐的工作自动化（第二版）》，并加入了一些自己的理解，仅用于个人交流与学习，如涉及侵权请联系站长删除！  1. 函数定义与调用 语法：使用 def 关键字定义函数。  参数：函数可以接收参数（变元），参数在函数内部作为局部变量使用。  示例： 12345def hello(name):    print(&#x27;Hello">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic-bed-3yk.pages.dev/img/p7.png">
+<meta property="article:published_time" content="2025-03-24T06:52:16.000Z">
+<meta property="article:modified_time" content="2025-03-24T07:07:59.330Z">
+<meta property="article:author" content="MosHSasA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic-bed-3yk.pages.dev/img/p7.png"><link rel="shortcut icon" href="/img/blog%E5%9B%BE%E6%A0%87.png"><link rel="canonical" href="http://moshsasa.github.io/2025/03/24/Python%E5%AD%A6%E4%B9%A0--%E5%87%BD%E6%95%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"toop-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python学习--函数',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-24 15:07:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://www.fomal.cc/static/css/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic-bed-3yk.pages.dev/img/p7.png')"><nav id="nav"><span id="blog-info"><a href="/" title="MosHSasA_Blog"><span class="site-name">MosHSasA_Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Python学习--函数</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-24T06:52:16.000Z" title="发表于 2025-03-24 14:52:16">2025-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-24T07:07:59.330Z" title="更新于 2025-03-24 15:07:59">2025-03-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Python学习--函数"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><blockquote>
+<p>[!NOTE]</p>
+<p>以下内容部分摘录自<code>《Python编程快速上手——让繁琐的工作自动化（第二版）》</code>，并加入了一些自己的理解，仅用于个人交流与学习，如涉及侵权请联系站长删除！</p>
+</blockquote>
+<h2 id="1-函数定义与调用"><a href="#1-函数定义与调用" class="headerlink" title="1. 函数定义与调用"></a>1. 函数定义与调用</h2><ul>
+<li><p><strong>语法</strong>：使用 <code>def</code> 关键字定义函数。</p>
+</li>
+<li><p><strong>参数</strong>：函数可以接收<code>参数（变元）</code>，<code>参数</code>在函数内部作为局部变量使用。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Hello, &#x27;</span> + name)</span><br><span class="line"></span><br><span class="line">hello(<span class="string">&#x27;GSY&#x27;</span>)  <span class="comment"># 输出：Hello, GSY</span></span><br><span class="line">hello(<span class="string">&#x27;CYX&#x27;</span>)  <span class="comment"># 输出：Hello, CYX</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p><strong>解释</strong>：像<code>print()</code>或者<code> len()</code> 函数括号中经常带有一些值，他们称之为函数的<code>参数</code>，也可以自己定义接收到参数的函数。</p>
+<ul>
+<li>如同上述例子一样：<code>hello函数</code>中有一个名叫<code>name</code>的变元，当函数被调用时，<code>参数</code>就存放在其中（保存在变元中的值，在函数返回后就消失了，例如：<code>在hello(&#39;CYX&#39;)</code>之后再<code>print(name)</code>那么程序就会报错。)</li>
+</ul>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sayHello</span>(<span class="params">abc</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Hello, &#x27;</span> + abc)</span><br><span class="line">sayHello(<span class="string">&#x27;AI&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>解释</strong>：<code>def sayHello(abc)</code>就是定义了一个这样的函数，而<code>sayHello(&#39;AI&#39;)</code>行则是调用了这样的函数,这样的函数调用也将字符串里的<code>AI</code> 传递给该函数，传递给函数的值称为<code>参数</code>，这里的<code>abc</code>就是接受<code>参数AI </code>的局部变量，也叫做变元。</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-参数与返回值"><a href="#2-参数与返回值" class="headerlink" title="2. 参数与返回值"></a>2. 参数与返回值</h2><ul>
+<li><p><strong>返回值</strong>：使用 <code>return</code> 语句指定函数的返回值。若无 <code>return</code>，默认返回 <code>None</code>。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getAnswer</span>(<span class="params">answerNumber</span>):</span><br><span class="line">    <span class="keyword">if</span> answerNumber == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;It is certain&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;It is decidedly so&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Yes&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Replay hazy try again&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Ask again later&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">6</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Concentrate and ask again&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">7</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;My replay is no&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">8</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Outlook not so good&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> answerNumber == <span class="number">9</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Very doubtful&#x27;</span></span><br><span class="line">   </span><br><span class="line">r = random.randint(<span class="number">1</span>, <span class="number">9</span>)</span><br><span class="line">fortune = getAnswer(r)</span><br><span class="line"><span class="built_in">print</span>(fortune)  <span class="comment"># 随机输出结果</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><strong>解释</strong>：这是一个随机返回一句话的例子，我们首先定义了一个函数<code>getAnswer()</code>，之后又生成了一个随机变元<code>r</code>它通过<code>random</code>函数在1-9之间随机一个数字，之后再通过对应我们定义函数中对应的部分来返回相应的句子，一般来说函数调用求值的结果称为函数的<code>返回值</code>，用<code>def语句</code>创建函数时可以用<code>return语句</code>指定应该返回什么值，<code>return语句</code>包含 :<ul>
+<li>1.<code>return</code>关键字 </li>
+<li>2.函数应该返回的值或者表达式（如果return语句中是有了表达式那么返回值就是求值的结果）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-关键字参数与-None-值"><a href="#3-关键字参数与-None-值" class="headerlink" title="3. 关键字参数与 None 值"></a>3. 关键字参数与 None 值</h2><ul>
+<li><p><strong>None 值</strong>：无显式返回值的函数默认返回 <code>None</code>。例如：<code>print()</code>函数,它直接在屏幕上显示文本，但不需要返回任何值，既然所有的函数调用都需要一个返回值，那么它的返回值就是None，而对于所有没有<code>return语句</code>的函数和不带值的<code>return语句</code>他们的返回值都默认是<code>None</code></p>
+</li>
+<li><p><strong>关键字参数</strong>：通过参数名指定值，常用于可选参数。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Hello&#x27;</span>, end=<span class="string">&#x27; &#x27;</span>)  <span class="comment"># 输出：Hello World（不换行）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;World&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;cats&#x27;</span>, <span class="string">&#x27;dogs&#x27;</span>, <span class="string">&#x27;mice&#x27;</span>, sep=<span class="string">&#x27;,&#x27;</span>)  <span class="comment"># 输出：cats,dogs,mice</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><strong>解释</strong>：上面所展示的就是<code>print()</code>函数的两个可选的变元<code>end</code>和<code>sep</code>：<ul>
+<li><code>sep</code>：指定参数间的分隔符，即：在参数之间输入什么来将他们分隔开（默认空格）。</li>
+<li><code>end</code>：指定末尾字符，即：指定在参数末尾输出什么（默认换行）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-调用栈"><a href="#4-调用栈" class="headerlink" title="4. 调用栈"></a>4. 调用栈</h2><ul>
+<li><p><strong>调用栈</strong>：Python 通过栈结构管理函数调用，每次调用函数时创建帧对象，返回时销毁。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Alice</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Alice starts&#x27;</span>)</span><br><span class="line">    Bob()</span><br><span class="line">    Carol()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Alice returns&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Bob</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Bob starts&#x27;</span>)</span><br><span class="line">    Carol()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Bob returns&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Carol</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Carol starts&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Carol returns&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Alice()</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p><strong>解释</strong>：调用栈是Python记住每个函数调用后在那里返回执行的方式，调用栈不是存储在程序的变量中而是由python在后台处理它，程序调用一个函数时python在调用栈的顶部创建一个<code>帧对象</code>，<code>帧对象</code>保存了再出函数调用的行号，使得python可以记住返回的位置，如果进行了另一个函数的调用python会将另一个<code>帧对象</code>放在调用栈中，且在前一个帧对象之上，当函数调用返回时，python从栈顶部删除一个对象并将执行栈转移至保存在其中的行号。</p>
+<p><strong>注意</strong> ：帧对象始终是从栈顶部添加和删除的。</p>
+</li>
+<li><p><strong>执行流程</strong>：</p>
+<ol>
+<li><code>Alice()</code> 调用 <code>Bob()</code> 和 <code>Carol()</code>。</li>
+<li><code>Bob()</code> 调用 <code>Carol()</code>。</li>
+<li>函数返回时按栈顺序退出。</li>
+</ol>
+</li>
+<li><p><strong>代码输出</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Alice starts</span><br><span class="line">Bob starts</span><br><span class="line">Carol starts</span><br><span class="line">Carol returns</span><br><span class="line">Bob returns</span><br><span class="line">Carol starts</span><br><span class="line">Carol returns</span><br><span class="line">Alice returns</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="5-作用域"><a href="#5-作用域" class="headerlink" title="5. 作用域"></a>5. 作用域</h2><ul>
+<li><p><strong>全局作用域</strong>：函数外定义的变量，处于全局作用域中的变量称为全局变量。</p>
+</li>
+<li><p><strong>局部作用域</strong>：函数内定义的变量，函数返回后销毁，处于局部作用域中的变量被称为局部变量。</p>
+</li>
+<li><p><strong>规则</strong>：</p>
+<ol>
+<li><p><strong>全局作用域不能访问局部变量</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>():</span><br><span class="line">    eggs = <span class="number">31337</span></span><br><span class="line">spam()</span><br><span class="line"><span class="built_in">print</span>(eggs)</span><br><span class="line"><span class="comment"># 注意：这是错误的代码！！！</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>解释</strong>：发生错误是因为<code>eggs</code>变量只属于<code>spam()</code>调用所创建的局部作用域，在程序执行从<code>spam</code>返回后,该局部作用域就被销毁了。</li>
+</ul>
+</li>
+<li><p><strong>不同函数的局部作用域相互独立</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>():</span><br><span class="line">    eggs = <span class="number">99</span></span><br><span class="line">    bacon()</span><br><span class="line">    <span class="built_in">print</span>(eggs)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bacon</span>():</span><br><span class="line">    ham = <span class="number">101</span></span><br><span class="line">    eggs = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">spam()</span><br><span class="line"><span class="comment"># 这串代码的输出结果为99</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>解释</strong>:这串代码第一个局部作用域来自于<code>spam函数</code>的调用，其中<code>eggs</code>的值为99，然后<code>bacon函数</code>被调用，创建了第二个局部作用域，在新的作用域中<code>ham</code>被赋值为101，<code>eggs</code>赋值为0,当<code>bacon函数</code>返回时，这次调用的局部作用域被销毁，程序执行在<code>spam函数</code>中继续输出<code>eggs</code>的值，所以<code>eggs</code>值为99被输出。</li>
+</ul>
+</li>
+<li><p><strong>局部作用域可读取全局变量</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>():</span><br><span class="line">    <span class="built_in">print</span>(eggs)</span><br><span class="line">eggs = <span class="number">42</span></span><br><span class="line">spam()</span><br><span class="line"><span class="built_in">print</span>(eggs)</span><br></pre></td></tr></table></figure>
+
+<p><strong>代码输出</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">42</span><br><span class="line">42</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>解释</strong>：首先我们调用的<code>spam()</code>中的<code>print(eggs)</code>处于函数<code>spam()</code>的局部作用域中，却可以输出我们在全局作用域中定义的<code>eggs</code>的值，这说明局部作用域可读取全局变量。</li>
+</ul>
+</li>
+<li><p><strong>同名变量在不同作用域互不影响</strong></p>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="6-global-语句"><a href="#6-global-语句" class="headerlink" title="6. global 语句"></a>6. global 语句</h2><ul>
+<li><p><strong>作用</strong>：在函数内修改全局变量。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eggs = <span class="string">&#x27;abc&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>():</span><br><span class="line">    <span class="keyword">global</span> eggs</span><br><span class="line">    eggs = <span class="string">&#x27;spam&#x27;</span>  <span class="comment"># 修改全局变量</span></span><br><span class="line"></span><br><span class="line">spam()</span><br><span class="line"><span class="built_in">print</span>(eggs)  </span><br><span class="line"><span class="comment"># 代码输出为：spam</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p><strong>解释</strong>：用<code>global语句</code>来告诉python我们要在此函数内修改的<code>eggs</code>是一个全局变量，不要用这个名字创建一个局部变量。因为<code>eggs</code>在<code>spam()</code>函数的顶部被声明为<code>global</code>所以当<code>eggs</code>被赋值为<code>spam</code>时赋值发生在全局作用域的<code>eggs上</code>没有创建局部<code>eggs</code>变量。</p>
+</li>
+<li><p><strong>法则（判断全局变量或局部变量）</strong>：</p>
+<p>1.如果变量在全局作用域中使用（在所有函数之外），它就是全局变量。</p>
+<p>2.如果在一个函数中有针对该变量的<code>global语句</code>，它就是全局变量。</p>
+<p>3.如果该变量用于函数中的赋值语句，它就是局部变量。</p>
+<p>4.如果该变量没有用在赋值语句中，它就是全局变量。</p>
+</li>
+</ul>
+<hr>
+<h2 id="7-异常处理"><a href="#7-异常处理" class="headerlink" title="7. 异常处理"></a>7. 异常处理</h2><ul>
+<li><p><strong>语法</strong>：使用 <code>try</code> 和 <code>except</code> 捕获异常。</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>(<span class="params">divideBy</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">42</span> / divideBy</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">12</span>))</span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：如果运行以上代码会遇到异常，因为有一个除数为0，遇到这种情况可以使用<code>try</code>和<code>except</code>语句来进行异常处理处理。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spam</span>(<span class="params">divideBy</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">42</span> / divideBy</span><br><span class="line">    <span class="keyword">except</span> ZeroDivisionError:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Error: Invalid argument.&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">12</span>))        </span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">0</span>))  <span class="comment"># 输出：Error: Invalid argument. 后返回 None</span></span><br><span class="line"><span class="built_in">print</span>(spam(<span class="number">1</span>))</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><strong>解释</strong>：我们使用<code>try</code>和<code>except</code>语句来检测代码中可能会报错的细节，但一旦跳到<code>except</code>子句的代码,就不会回到<code>try</code>的子句，而会继续向下执行。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://MosHSasA.github.io">MosHSasA</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://moshsasa.github.io/2025/03/24/Python%E5%AD%A6%E4%B9%A0--%E5%87%BD%E6%95%B0/">http://moshsasa.github.io/2025/03/24/Python%E5%AD%A6%E4%B9%A0--%E5%87%BD%E6%95%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://MosHSasA.github.io" target="_blank">MosHSasA_Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://pic-bed-3yk.pages.dev/img/p7.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/03/22/Python%E5%AD%A6%E4%B9%A0--%E6%8E%A7%E5%88%B6%E6%B5%81/" title="Python学习--控制流"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p8.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Python学习--控制流</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MosHSasA</div><div class="author-info__description">Pick the stars ⭐️⭐️⭐️</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MosHSasA"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MosHSasA" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1258830590@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to MosHSasA_Blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%B0%83%E7%94%A8"><span class="toc-text">1. 函数定义与调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8F%82%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">2. 参数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%85%B3%E9%94%AE%E5%AD%97%E5%8F%82%E6%95%B0%E4%B8%8E-None-%E5%80%BC"><span class="toc-text">3. 关键字参数与 None 值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%B0%83%E7%94%A8%E6%A0%88"><span class="toc-text">4. 调用栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">5. 作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-global-%E8%AF%AD%E5%8F%A5"><span class="toc-text">6. global 语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">7. 异常处理</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By MosHSasA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer src="/js/light.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/Python/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 MosHSasAのPython学习 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/随想/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 MosHSasAの胡思乱想 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://MosHSasA.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #1A1818;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #ffd700}.magnet_link_more{color:#555}.magnet_link{color:white}.magnet_link:hover{color:black}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInLeft');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '0.5s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInRight');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('pagination');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__rotateInDownLeft');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/21/Python基础/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p3.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-21</span><a class="blog-slider__title" href="2025/03/21/Python基础/" alt="">Python学习--基础</a><div class="blog-slider__text">🤔🤔🤔</div><a class="blog-slider__button" href="2025/03/21/Python基础/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/22/Python学习--控制流/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p8.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-22</span><a class="blog-slider__title" href="2025/03/22/Python学习--控制流/" alt="">Python学习--控制流</a><div class="blog-slider__text">🤔🤔🤔</div><a class="blog-slider__button" href="2025/03/22/Python学习--控制流/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/24/Python学习--函数/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p7.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-24</span><a class="blog-slider__title" href="2025/03/24/Python学习--函数/" alt="">Python学习--函数</a><div class="blog-slider__text">🤔🤔🤔</div><a class="blog-slider__button" href="2025/03/24/Python学习--函数/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
