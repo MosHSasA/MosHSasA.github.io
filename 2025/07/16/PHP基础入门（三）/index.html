@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PHP基础入门（三） | MosHSasA_Blog</title><meta name="author" content="MosHSasA"><meta name="copyright" content="MosHSasA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="🦋本篇文章来介绍PHP文件系统操作函数的核心用法的第一部分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP基础入门（三）">
+<meta property="og:url" content="http://moshsasa.github.io/2025/07/16/PHP%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="MosHSasA_Blog">
+<meta property="og:description" content="🦋本篇文章来介绍PHP文件系统操作函数的核心用法的第一部分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic-bed-3yk.pages.dev/img/p20.png">
+<meta property="article:published_time" content="2025-07-16T09:10:21.000Z">
+<meta property="article:modified_time" content="2025-07-18T08:26:47.493Z">
+<meta property="article:author" content="MosHSasA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic-bed-3yk.pages.dev/img/p20.png"><link rel="shortcut icon" href="/img/blog%E5%9B%BE%E6%A0%87.png"><link rel="canonical" href="http://moshsasa.github.io/2025/07/16/PHP%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%89%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"toop-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PHP基础入门（三）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-07-18 16:26:47'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://www.fomal.cc/static/css/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic-bed-3yk.pages.dev/img/p20.png')"><nav id="nav"><span id="blog-info"><a href="/" title="MosHSasA_Blog"><span class="site-name">MosHSasA_Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PHP基础入门（三）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-16T09:10:21.000Z" title="发表于 2025-07-16 17:10:21">2025-07-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-18T08:26:47.493Z" title="更新于 2025-07-18 16:26:47">2025-07-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PHP/">PHP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PHP基础入门（三）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="PHP基础入门（三）"><a href="#PHP基础入门（三）" class="headerlink" title="PHP基础入门（三）"></a>PHP基础入门（三）</h1><blockquote>
+<p>[!NOTE]</p>
+<p>本篇文章仅用于个人交流与学习，如涉及侵权请联系站长删除！</p>
+</blockquote>
+<h2 id="1-文件路径处理"><a href="#1-文件路径处理" class="headerlink" title="1. 文件路径处理"></a>1. 文件路径处理</h2><ol>
+<li><p><code>basename($path, $suffix)</code></p>
+<ul>
+<li><p>返回路径中的文件名部分，参数<code>$path</code>为路径，可以通过参数<code>$suffix</code>来去掉文件的扩展名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$oneName</span> = <span class="title function_ invoke__">basename</span>(<span class="string">&quot;/testweb/home.php&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$oneName</span>; <span class="comment">//输出为 home.php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$twoName</span> = <span class="title function_ invoke__">basename</span>(<span class="string">&quot;/testweb/home.php&quot;</span>, <span class="string">&quot;.php&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$twoName</span>; <span class="comment">//输出为 home</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>dirname($path, $levels)</code></p>
+<ul>
+<li><p>返回路径目录部分，参数<code>$path</code>为路径，可以通过参数<code>$levels</code>指定向上返回的目录层级数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$oneName</span> = <span class="title function_ invoke__">dirname</span>(<span class="string">&quot;c:/testweb/home.php&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$oneName</span>; <span class="comment">//输出为 c:/testweb</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$twoName</span> = <span class="title function_ invoke__">dirname</span>(<span class="string">&quot;c:/testweb/home.php&quot;</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$twoName</span>; <span class="comment">//输出为 c:\</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>pathinfo($path)</code></p>
+<ul>
+<li><p>返回路径信息数组，包括返回路径（dirname），文件名（basename），后缀名（extension）。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">pathinfo</span>(<span class="string">&quot;/testweb/test.txt&quot;</span>)) </span><br><span class="line"><span class="comment">// 输出为Array ( [dirname] =&gt; testweb [basename] =&gt; test.txt [extension] =&gt; txt [filename] =&gt; test )</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>因为这里要输出信息数组，所以要使用<code>print_r</code>输出。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-文件属性修改"><a href="#2-文件属性修改" class="headerlink" title="2. 文件属性修改"></a>2. 文件属性修改</h2><ol>
+<li><p><code>chgrp($file, $group)</code></p>
+<ul>
+<li><p>修改文件所属组。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">chgrp</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;www-data&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>chmod($file, $owner)</code></p>
+<ul>
+<li><p>修改文件权限（8进制模式）。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">chmod</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="number">0664</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>这里的权限表示为所有者读写，其他人只读。</p>
+</li>
+</ul>
+</li>
+<li><p><code>chown($file, $owner)</code></p>
+<ul>
+<li><p>修改文件所有者。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">chown</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;gsy&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>touch($file, $time)</code></p>
+<ul>
+<li><p>修改访问&#x2F;修改时间（默认为当前时间）。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">touch</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>文件存在则更新时间，文件不存在则创建。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-文件读写操作"><a href="#3-文件读写操作" class="headerlink" title="3.文件读写操作"></a>3.文件读写操作</h2><ol>
+<li><p><code>fopen($file, $mode)</code></p>
+<ul>
+<li><p>打开文件，参数<code>$mode</code>则是以什么样的模式打开文件。</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>模式</strong></th>
+<th align="center"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>r</code></td>
+<td align="center">只读方式打开，将文件指针指向文件头。</td>
+</tr>
+<tr>
+<td align="center"><code>r+</code></td>
+<td align="center">读写方式打开，将文件指针指向文件头。</td>
+</tr>
+<tr>
+<td align="center"><code>w</code></td>
+<td align="center">写入方式打开，将文件指针指向文件头并将文件大小截为0，如果文件不存在则尝试创建。</td>
+</tr>
+<tr>
+<td align="center"><code>w+</code></td>
+<td align="center">读写方式打开，将文件指针指向文件头并将文件大小截为0，如果文件不存在则尝试创建。</td>
+</tr>
+<tr>
+<td align="center"><code>a</code></td>
+<td align="center">写入方式打开，将文件指针指向文件尾，如果文件不存在则尝试创建。</td>
+</tr>
+<tr>
+<td align="center"><code>a+</code></td>
+<td align="center">读写方式打开，将文件指针指向文件尾，如果文件不存在则尝试创建。</td>
+</tr>
+<tr>
+<td align="center"><code>x</code></td>
+<td align="center">创建并以写入方式打开，将文件指针指向文件头。如果文件已经存在，则<code>fopen()</code>调用失败并返回<code>FALSE</code>，并生成一条 E_WARNING 级别的报错信息。如果文件不存在则尝试创建。</td>
+</tr>
+</tbody></table>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$fopen</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&quot;r&quot;</span>); <span class="comment">// 以只读模式打开文件</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$fopen</span>);<span class="comment">// 使用var_dump()操作一下$fopen看看效果，查看输出结果，提示resource</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong><code>fopen()</code>函数返回的仅仅一个指向文件的资源句柄，而非内容本身。</p>
+</li>
+</ul>
+</li>
+<li><p><code>fwrite($handle, $data)</code> 和 <code>fread($handle, $length)</code></p>
+<ul>
+<li><p><code>fwrite($handle, $data)</code>函数用于写入数据。<code>$handle</code>参数代表文件对象，而<code>$data</code>参数代表的是需要写入的数据，它的返回值是输入值字节数，并且如果需要写入的文档中已经有内容了，<code>fwrite()</code>函数会覆盖这些内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$fopen</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&quot;w&quot;</span>); <span class="comment">// 以写入的方式打开文件。</span></span><br><span class="line"><span class="variable">$fwrite</span> = <span class="title function_ invoke__">fwrite</span>(<span class="variable">$fopen</span>, <span class="string">&quot;fwrite()函数使用测试&quot;</span>); <span class="comment">// 调用函数fwrite()并将它赋值给变量 $fwrite。</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$fopen</span>); <span class="comment">// 关闭文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="variable">$fwrite</span>; <span class="comment">// 打印$fwrite变量 输出为26</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fread($handle, $length)</code>返回所读取的字符串，如果出错返回 <code>FALSE</code>。<code>$handle</code>参数代表的是需要读取的文件对象，<code>$length</code>参数代表的是需要读取的字节长度。</p>
+</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$handle</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&quot;r&quot;</span>); <span class="comment">// 用读的方式打开文件</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$str</span> = <span class="title function_ invoke__">fread</span>(<span class="variable">$handle</span>, <span class="number">100</span>); <span class="comment">// 用$str变量接受fread函数返回的字符串</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$handle</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="variable">$str</span>; <span class="comment">// 打印字符串</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>file_get_contents($file)</code> 和 <code>file_put_contents($file, $data)</code></p>
+<ul>
+<li><p><code>file_get_contents($file)</code>可以读取整个文件到字符串，它返回的值是字符串。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>); <span class="comment">// 输出文件中内容</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>file_put_contents($file, $data)</code>可以写入字符串到文件。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里的test.txt文件中的内容为123</span></span><br><span class="line"><span class="variable">$str</span> = <span class="title function_ invoke__">file_put_contents</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$str</span>; <span class="comment">// 输出的内容为5</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong><code>file_put_contents($file, $data)</code>函数执行两个操作：</p>
+<ol>
+<li>覆盖写入文件，原本的txt文件中的内容<code>&#39;123&#39;</code>被替换为<code>hello</code>。</li>
+<li>返回写入的字节数。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><code>file($file)</code></p>
+<ul>
+<li><p><code>file($file)</code>函数可以读取整个函数到数组。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*原本txt文档中的内容为：</span></span><br><span class="line"><span class="comment">abc</span></span><br><span class="line"><span class="comment">def</span></span><br><span class="line"><span class="comment">ghi</span></span><br><span class="line"><span class="comment">jkl</span></span><br><span class="line"><span class="comment">mno</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">file</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>)); </span><br><span class="line"><span class="comment">// 输出的结果为：Array ( [0] =&gt; abc [1] =&gt; def [2] =&gt; ghi [3] =&gt; jkl [4] =&gt; mno )</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>fgets($handle)</code> 和 <code>fgetc($handle)</code></p>
+<ul>
+<li><p><code>fgets($handle)</code> 用来逐行读取文件内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先用 fopen() 打开文件</span></span><br><span class="line"><span class="variable">$file</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$line</span> = <span class="title function_ invoke__">fgets</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$line</span>; <span class="comment">// 输出第一行内容</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fgetc($handle)</code>用来逐字读取文件内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先用 fopen() 打开文件</span></span><br><span class="line"><span class="variable">$file</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$line</span> = <span class="title function_ invoke__">fgetc</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$line</span>; <span class="comment">// 输出第一个单字符</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>注意事项</p>
+<p>在文件读写操作所提到的这些函数中，有一个需要注意的地方是像：<code>fwrite($handle, $data)</code> 、<code>fread($handle, $length)</code>、 <code>fread($handle, $length)</code>、<code>fgets($handle)</code>、<code>fgetc($handle)</code>这样的函数，它们的参数使用的是文件资源（资源句柄<code>$handle</code>），所以在调用时，我们首先应该通过<code>fopen()</code>函数获得这样的资源句柄，才能保证顺利运行。</p>
+</li>
+</ol>
+<h2 id="4-文件缓存状态"><a href="#4-文件缓存状态" class="headerlink" title="4. 文件缓存状态"></a>4. 文件缓存状态</h2><ol>
+<li><p><code>clearstatcache()</code></p>
+<ul>
+<li><p>清除文件缓存状态（修改后需要调用）。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设原来txt文件里的内容为123</span></span><br><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;初始大小：&quot;</span> . <span class="title function_ invoke__">filesize</span>(<span class="variable">$file</span>) . <span class="string">&quot;字节&lt;br&gt;&quot;</span>; <span class="comment">// 初始大小输出为3。</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$file</span>, <span class="string">&quot;添加一些内容&quot;</span>); <span class="comment">// 通过函数修改txt文件中的内容。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;不清理缓存：&quot;</span> . <span class="title function_ invoke__">filesize</span>(file) . <span class="string">&quot;字节&lt;br&gt;&quot;</span>; <span class="comment">// 没有调用clearstatcahe()函数时 继续输出3</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">clearstatcache</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;清理缓存后&quot;</span> . <span class="title function_ invoke__">filesize</span>(<span class="variable">$file</span>) . <span class="string">&quot;字节&lt;br&gt;&quot;</span> <span class="comment">// 清理缓存后输出的值为18</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>filesize($file)</code> 和 <code>filetype($file)</code></p>
+<ul>
+<li><p><code>filesize($file)</code>函数用来获取文件大小，并返回一个以字节为单位的大小数值，在刚刚的例子里也有体现。</p>
+</li>
+<li><p><code>filetype($file)</code>函数可以获取并返回文件类型，但是它返回的是文件在操作系统中的基本类型（也称为文件模式、文件种类），而不是后最格式或文件格式。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;G:/phpCode/test.txt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">filetype</span>(<span class="variable">$file</span>); <span class="comment">// 输出的结果为file</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>file_exists($file)</code>、<code>is_file($file)</code>和<code>is_dir($file)</code></p>
+<ul>
+<li><p><code>file_exists($file)</code>函数用来查找检查文件或者目录是否存在。若存在则返回<code>TRUE</code>，若不存在则返回<code>FALSE</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;G:\phpCode\test.txt&#x27;</span>; <span class="comment">// 此文件存在</span></span><br><span class="line"><span class="variable">$iiii</span> = <span class="string">&#x27;G:\phpCode\abc.txt&#x27;</span>; <span class="comment">// 此文件不存在</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(<span class="variable">$file</span>)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;文件存在&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;文件不存在&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出为文件存在</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">file_exists</span>(<span class="variable">$iiii</span>)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;文件存在&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;文件不存在&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出为文件不存在</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>is_file($file)</code>函数用来检查是否为文件。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">is_file</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>is_dir($file)</code>函数用用户来稽查是否为目录。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">is_dir</span>(<span class="string">&quot;test&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>PHP基础入门（三）</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://moshsasa.github.io/2025/07/16/PHP%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%89%EF%BC%89/">http://moshsasa.github.io/2025/07/16/PHP基础入门（三）/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>MosHSasA</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-07-16</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-07-18</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://pic-bed-3yk.pages.dev/img/p20.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/07/15/PHP%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89/" title="PHP基础入门（二）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p16.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PHP基础入门（二）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MosHSasA</div><div class="author-info__description">Pick the stars ⭐️⭐️⭐️</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MosHSasA"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MosHSasA" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1258830590@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to MosHSasA_Blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%89%EF%BC%89"><span class="toc-text">PHP基础入门（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%A4%84%E7%90%86"><span class="toc-text">1. 文件路径处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E4%BF%AE%E6%94%B9"><span class="toc-text">2. 文件属性修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="toc-text">3.文件读写操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%96%87%E4%BB%B6%E7%BC%93%E5%AD%98%E7%8A%B6%E6%80%81"><span class="toc-text">4. 文件缓存状态</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By MosHSasA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer src="/js/light.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/Python/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 MosHSasAのPython学习 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/Web前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 MosHSasAのWeb前端学习 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/PHP/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 MosHSasAのPHP入门 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/随想/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 MosHSasAの胡思乱想 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://MosHSasA.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #1A1818;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #ffd700}.magnet_link_more{color:#555}.magnet_link{color:white}.magnet_link:hover{color:black}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInLeft');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '0.5s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInRight');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('pagination');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__rotateInDownLeft');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/16/Python学习--字典/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p12.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-16</span><a class="blog-slider__title" href="2025/04/16/Python学习--字典/" alt="">Python学习--字典</a><div class="blog-slider__text">🎄理解有关Python字典工作原理</div><a class="blog-slider__button" href="2025/04/16/Python学习--字典/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/26/Python学习-列表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p9.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-26</span><a class="blog-slider__title" href="2025/03/26/Python学习-列表/" alt="">Python学习--列表</a><div class="blog-slider__text">🥪理解列表和元组等序列数据类型</div><a class="blog-slider__button" href="2025/03/26/Python学习-列表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/21/Python基础/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p3.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-21</span><a class="blog-slider__title" href="2025/03/21/Python基础/" alt="">Python学习--基础</a><div class="blog-slider__text">🎃本文列举了一些关于Python的基础概念</div><a class="blog-slider__button" href="2025/03/21/Python基础/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/22/Python学习--控制流/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p8.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-22</span><a class="blog-slider__title" href="2025/03/22/Python学习--控制流/" alt="">Python学习--控制流</a><div class="blog-slider__text">✨理解Python中的流程控制，让单条指令成为一系列指令</div><a class="blog-slider__button" href="2025/03/22/Python学习--控制流/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/24/Python学习--函数/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p7.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-24</span><a class="blog-slider__title" href="2025/03/24/Python学习--函数/" alt="">Python学习--函数</a><div class="blog-slider__text">🎷理解有关Python自定义函数的工作原理</div><a class="blog-slider__button" href="2025/03/24/Python学习--函数/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
