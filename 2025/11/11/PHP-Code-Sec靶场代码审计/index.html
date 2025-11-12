@@ -1,0 +1,819 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PHP-Code-Sec靶场代码审计报告 | MosHSasA_Blog</title><meta name="author" content="MosHSasA"><meta name="copyright" content="MosHSasA"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="🐋这篇文章是针对PHP-Code-Sec靶场的代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP-Code-Sec靶场代码审计报告">
+<meta property="og:url" content="http://moshsasa.github.io/2025/11/11/PHP-Code-Sec%E9%9D%B6%E5%9C%BA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/index.html">
+<meta property="og:site_name" content="MosHSasA_Blog">
+<meta property="og:description" content="🐋这篇文章是针对PHP-Code-Sec靶场的代码审计">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic-bed-3yk.pages.dev/img/p13.jpg">
+<meta property="article:published_time" content="2025-11-11T09:15:44.000Z">
+<meta property="article:modified_time" content="2025-11-12T06:57:54.432Z">
+<meta property="article:author" content="MosHSasA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic-bed-3yk.pages.dev/img/p13.jpg"><link rel="shortcut icon" href="/img/blog%E5%9B%BE%E6%A0%87.png"><link rel="canonical" href="http://moshsasa.github.io/2025/11/11/PHP-Code-Sec%E9%9D%B6%E5%9C%BA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"toop-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PHP-Code-Sec靶场代码审计报告',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-12 14:57:54'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://www.fomal.cc/static/css/runtime.min.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic-bed-3yk.pages.dev/img/p13.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="MosHSasA_Blog"><span class="site-name">MosHSasA_Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PHP-Code-Sec靶场代码审计报告</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-11T09:15:44.000Z" title="发表于 2025-11-11 17:15:44">2025-11-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-12T06:57:54.432Z" title="更新于 2025-11-12 14:57:54">2025-11-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PHP/">PHP</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PHP-Code-Sec靶场代码审计报告"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="PHP-Code-Sec靶场代码审计"><a href="#PHP-Code-Sec靶场代码审计" class="headerlink" title="PHP-Code-Sec靶场代码审计"></a>PHP-Code-Sec靶场代码审计</h1><table>
+<thead>
+<tr>
+<th align="left">项目信息</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>报告名称</strong></td>
+<td align="left">PHP-Code-Sec靶场代码审计报告</td>
+</tr>
+<tr>
+<td align="left"><strong>审计对象</strong></td>
+<td align="left">PHP-Code-Sec靶场</td>
+</tr>
+<tr>
+<td align="left"><strong>审计日期</strong></td>
+<td align="left">2025年11月3日 - 2025年11月11日</td>
+</tr>
+<tr>
+<td align="left"><strong>审计人员</strong></td>
+<td align="left">MosHSasA</td>
+</tr>
+<tr>
+<td align="left"><strong>报告日期</strong></td>
+<td align="left">2025年11月11日</td>
+</tr>
+</tbody></table>
+<h3 id="1-执行摘要"><a href="#1-执行摘要" class="headerlink" title="1. 执行摘要"></a><strong>1. 执行摘要</strong></h3><ul>
+<li><p><strong>1.1 审计概述</strong>：</p>
+<ul>
+<li><strong>审计目的：</strong>通过此靶场进行代码审计以及相关知识的学习。</li>
+<li><strong>审计范围：</strong>主要针对靶场<strong>PHP-Code-Sec</strong>的<code>/modules/</code>和<code>/setup/</code>目录下的文件进行审计。</li>
+<li><strong>主要方法：</strong>工具辅助（<strong>RIPS</strong>）。</li>
+</ul>
+</li>
+<li><p><strong>1.2 漏洞统计</strong>：使用表格展示漏洞等级和数量，一目了然。</p>
+<table>
+<thead>
+<tr>
+<th align="left">风险等级</th>
+<th align="left">漏洞数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">严重</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td align="left">高危</td>
+<td align="left">8</td>
+</tr>
+<tr>
+<td align="left">中危</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">低危</td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>1.3 整体风险评估</strong>：项目存在多个可直接导致服务器被入侵的严重漏洞，需立即修复。</p>
+</li>
+<li><p><strong>1.4 修复建议摘要</strong>：<strong>立即修复</strong>所有严重和高危漏洞，特别是命令执行和远程代码执行漏洞。</p>
+</li>
+</ul>
+<h3 id="2-审计范围与方法"><a href="#2-审计范围与方法" class="headerlink" title="2. 审计范围与方法"></a><strong>2. 审计范围与方法</strong></h3><ul>
+<li><strong>2.1 审计范围</strong>：<ul>
+<li><code>/modules</code>目录下：<ul>
+<li><code>/command/index.php</code>、<code>/cors/index.php</code>、<code>/doubleparse/index.php</code>、<code>/fi/index.php</code>、<code>/hpp/index.php</code>、<code>/idor/user.php</code>、<code>/mail/index.php</code>、<code>/override/index.php</code>、<code>/path/index.php</code>、<code>/phar/index.php</code>、<code>/rce/eval.php</code>、<code>/sqli/index.php</code>、<code>unserialize/index.php</code>、<code>/upload/index.php</code>、<code>wrapper/index.php</code>、<code>/write/index.php</code>、<code>/xss/reflected.php</code>。</li>
+</ul>
+</li>
+<li><code>/setup</code>目录下：<ul>
+<li><code>/install.php</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>2.2 审计方法</strong>：<ul>
+<li><strong>人工审计</strong>：通读关键业务逻辑代码。</li>
+<li><strong>工具辅助</strong>：使用静态代码分析工具（<strong>RIPS</strong>）</li>
+<li><strong>测试验证</strong>：对发现的疑似漏洞点进行模拟验证（在测试环境中，<strong>严禁直接对生产环境操作</strong>）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-漏洞详情"><a href="#3-漏洞详情" class="headerlink" title="3. 漏洞详情"></a><strong>3. 漏洞详情</strong></h3><ul>
+<li><h3 id="VULU-001-命令执行-modules-command-index-php"><a href="#VULU-001-命令执行-modules-command-index-php" class="headerlink" title="VULU-001 - 命令执行 - /modules/command/index.php"></a><strong>VULU-001 - 命令执行 - <code>/modules/command/index.php</code></strong></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/command/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第6行：<code>$host = $_GET[&#39;host&#39;];</code> 第7行：<code>$cmd = &#39;ping -n 1 &#39; . $host;</code> 第8行：<code>$output = shell_exec($cmd);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">可以看到用户输入的<code>host</code>参数没有进行任何过滤直接拼接到第七行的<code>ping</code>命令之后，又在第八行中直接执行系统命令，这导致用户可以输入任何系统命令来获取系统信息。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">使用白名单验证<code>host</code>参数，或使用<code>escapeshellarg()</code>函数进行转义。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-002-HTTP-header注入-modules-cors-index-php"><a href="#VULN-002-HTTP-header注入-modules-cors-index-php" class="headerlink" title="VULN-002 - HTTP header注入 - /modules/cors/index.php"></a><strong>VULN-002 - HTTP header注入 - <code>/modules/cors/index.php</code></strong></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>modules/cors/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第5行：<code>header(&#39;Access-Control-Allow-Origin: &#39; . $_GET[&#39;origin&#39;]);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left"><code>Origin</code>头值直接来自用户输入，可能导致HTTP响应头注入攻击，（例如攻击者构造恶意网站，窃取用户信息。）</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">验证<code>origin</code>是否为允许的域名，或使用白名单机制。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-003-文件读取-modules-doubleparse-index-php"><a href="#VULN-003-文件读取-modules-doubleparse-index-php" class="headerlink" title="VULN-003 - 文件读取 - /modules/doubleparse/index.php"></a><strong>VULN-003 - 文件读取 - <code>/modules/doubleparse/index.php</code></strong></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/doubleparse/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第12行：<code>$fileParam = $_GET[&#39;file&#39;]??&#39;&#39;;</code> 第15行：<code>$base = __DIR__ . &#39;/../../data/&#39;;</code> 第21行：<code>$target = $base . $decodedTwice;</code> 第23行：<code>$output = file_get_contents($target);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left"><code>$_GET[&#39;file&#39;]</code>从URL的GET参数中获取名为<code>&#39;file&#39;</code>的值，<code>$decodedTwice</code>变量中存储的是经过两次解码的用户输入路径，之后将基础路径<code>$base</code>与用户输入的文件名直接拼接，如果用户输入包含<code>../</code>，可能跳出限制目录。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">使用白名单限制可访问的文件，加强路径遍历检查。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-004-文件包含-modules-fi-index-php"><a href="#VULN-004-文件包含-modules-fi-index-php" class="headerlink" title="VULN-004 - 文件包含 - /modules/fi/index.php"></a>VULN-004 - 文件包含 - <code>/modules/fi/index.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/fi/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第4行：<code>$page = $_GET[&#39;page&#39;] ?? &#39;home&#39;; </code>第29行：<code> $path = $page;</code> 第31行：<code>@include $path;</code> 第33行：<code>include __DIR__ . &#39;/../../pages/&#39; . $path . &#39;.php&#39;;</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">从<code>@include $path</code>和<code>@include __DIR__ . &#39;/../../pages/&#39; . $path . &#39;.php&#39;;</code>我们可以知道包含文件<code>$path</code>是来自用户可控的输入的，这就导致任意文件包含和代码执行。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">实现严格的白名单机制，禁止动态包含用户可控文件。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-005-XSS漏洞-modules-hpp-index-php"><a href="#VULN-005-XSS漏洞-modules-hpp-index-php" class="headerlink" title="VULN-005 - XSS漏洞 - /modules/hpp/index.php"></a>VULN-005 - XSS漏洞 - <code>/modules/hpp/index.php</code></h3><p><strong>风险等级：中危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/hpp/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第16行：<code>print_r $msg . &#39; 角色列表接收为: &#39; . h(print_r($roles, true));</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户输入直接输出到页面，存在跨站脚本攻击风险。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">对所有用户输出进行HTML实体编码。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-006-XSS漏洞-modules-idor-user-php"><a href="#VULN-006-XSS漏洞-modules-idor-user-php" class="headerlink" title="VULN-006 - XSS漏洞 - /modules/idor/user.php"></a>VULN-006 - XSS漏洞 - <code>/modules/idor/user.php</code></h3><p><strong>风险等级：中危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/idor/user.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第7行：<code>$user = $pdo-&gt;query(&quot;SELECT ... WHERE id=&quot; . $id)-&gt;fetch();</code> 存在print_r输出</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">存在SQL注入和XSS双重风险，用户数据未经验证直接输出。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">使用参数化查询，对输出进行编码。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-007-协议注入-modules-mail-index-php"><a href="#VULN-007-协议注入-modules-mail-index-php" class="headerlink" title="VULN-007 - 协议注入 - /modules/mail/index.php"></a>VULN-007 - 协议注入 - <code>/modules/mail/index.php</code></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/mail/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第11行：<code>$ok = mail($to, $subj, $body, $headers);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">邮件头信息直接来自用户输入，可被用于邮件头注入攻击。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">验证邮件地址格式，过滤特殊字符。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-008-extract滥用-modules-override-index-php"><a href="#VULN-008-extract滥用-modules-override-index-php" class="headerlink" title="VULN-008 - extract滥用 - /modules/override/index.php"></a>VULN-008 - extract滥用 - <code>/modules/override/index.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/override/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第19行：<code>extract($_GET);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left"><code>extract()</code>函数直接处理<code>$_GET</code>数组，导致变量覆盖漏洞。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">避免使用<code>extract()</code>函数，或使用EXTR_SKIP等安全模式。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-009-文件读取-modules-path-index-php"><a href="#VULN-009-文件读取-modules-path-index-php" class="headerlink" title="VULN-009 - 文件读取 - /modules/path/index.php"></a>VULN-009 - 文件读取 - <code>/modules/path/index.php</code></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/path/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第9行：<code>$content = file_get_contents($target);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户可控文件路径，可读取服务器敏感文件。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">限制文件访问范围，使用绝对路径检查。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-010-远程代码执行-modules-rce-eval-php"><a href="#VULN-010-远程代码执行-modules-rce-eval-php" class="headerlink" title="VULN-010 - 远程代码执行 - /modules/rce/eval.php"></a>VULN-010 - 远程代码执行 - <code>/modules/rce/eval.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/rce/eval.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第13行：<code>eval($code);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户输入直接作为PHP代码执行，极度危险。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left"><strong>绝对禁止</strong>在生产环境使用eval函数。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-011-SQL注入-modules-sqli-index-php"><a href="#VULN-011-SQL注入-modules-sqli-index-php" class="headerlink" title="VULN-011 - SQL注入 - /modules/sqli/index.php"></a>VULN-011 - SQL注入 - <code>/modules/sqli/index.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/sqli/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第15行：<code>$sql2 = &quot;SELECT ... WHERE username=&#39;&quot; . $q . &quot;&#39;&quot;;</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户输入直接拼接SQL查询，存在SQL注入漏洞。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">使用参数化查询（PDO预处理语句）。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-012-反序列化漏洞-modules-unserialize-index-php"><a href="#VULN-012-反序列化漏洞-modules-unserialize-index-php" class="headerlink" title="VULN-012 - 反序列化漏洞 - /modules/unserialize/index.php"></a>VULN-012 - 反序列化漏洞 - <code>/modules/unserialize/index.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/unserialize/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第17行：<code>unserialize($data);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">反序列化用户可控数据，可能导致对象注入攻击。</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">避免反序列化用户输入，使用JSON等安全格式。</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-013-文件上传漏洞-modules-upload-index-php"><a href="#VULN-013-文件上传漏洞-modules-upload-index-php" class="headerlink" title="VULN-013 - 文件上传漏洞 - /modules/upload/index.php"></a>VULN-013 - 文件上传漏洞 - <code>/modules/upload/index.php</code></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/upload/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第5行：<code>$f = $_FILES[&#39;file&#39;];</code> 第22行：<code>$msg = &#39;&lt;span class=&quot;danger&quot;&gt;上传错误代码：&#39; . $f[&#39;error&#39;] . &#39;&lt;/span&gt;&#39;;</code> 第38行：<code>echo &#39;&lt;p&gt;&#39; . $msg . &#39;&lt;/p&gt;&#39;;</code> 存在<code>move_uploaded_file</code>函数调用</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">文件上传功能存在双重风险：1. 未对上传文件类型进行严格验证，可能导致恶意文件上传；2. 错误信息直接输出到页面，存在XSS漏洞。</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞验证</strong></td>
+<td align="left">1. 上传webshell文件测试是否被拦截 2. 构造特殊文件名触发错误信息，验证XSS漏洞</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">1. 限制上传文件类型（白名单机制） 2. 检查文件内容而不仅是扩展名 3. 将上传文件存储在Web目录外 4. 对错误信息进行HTML编码：<code>echo &#39;&lt;p&gt;&#39; . htmlspecialchars($msg) . &#39;&lt;/p&gt;&#39;;</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-014-任意文件读取-modules-wrapper-index-php"><a href="#VULN-014-任意文件读取-modules-wrapper-index-php" class="headerlink" title="VULN-014 - 任意文件读取 - /modules/wrapper/index.php"></a>VULN-014 - 任意文件读取 - <code>/modules/wrapper/index.php</code></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/modules/wrapper/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第12行：<code>$path = $_GET[&#39;path&#39;]??&#39;index.php&#39;;</code> 第16行：<code>$wrapper = &#39;php://filter/convert.base64-encode/resource=&#39;. $path;</code> 第17行：<code>$data = file_get_contents($wrapper);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">通过PHP包装器漏洞，攻击者可读取服务器任意文件的base64编码内容，绕过某些文件读取限制。</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞验证</strong></td>
+<td align="left">访问：<code>http://target.com/wrapper/index.php?path=../../config/db.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">1. 禁用危险的PHP包装器 2. 实现严格的文件路径白名单 3. 使用<code>realpath()</code>检查路径是否在允许范围内</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-015-任意文件写入-modules-write-index-php"><a href="#VULN-015-任意文件写入-modules-write-index-php" class="headerlink" title="VULN-015 - 任意文件写入 - /modules/write/index.php"></a>VULN-015 - 任意文件写入 - <code>/modules/write/index.php</code></h3><p><strong>风险等级：严重</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">**漏洞文件</td>
+<td align="left"><code>/modules/write/index.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第8行：<code>$path = $_POST[&#39;path&#39;]??&#39;&#39;;</code> 第9行：<code>$content = $_POST[&#39;content&#39;]??&#39;&#39;;</code> 第17行：<code>$bytes = file_put_contents($path, $content, $flags);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户可完全控制写入路径和内容，可直接写入webshell到服务器。</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞验证</strong></td>
+<td align="left">POST请求：<code>path=shell.php&amp;content=&lt;?php system($_GET[&#39;cmd&#39;]);?&gt;</code></td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">1. <strong>绝对禁止</strong>此类功能在生产环境使用 2. 如必须使用，限制路径到特定安全目录 3. 验证文件内容安全性</td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-016-反射型XSS-modules-xss-reflected-php"><a href="#VULN-016-反射型XSS-modules-xss-reflected-php" class="headerlink" title="VULN-016 - 反射型XSS - /modules/xss/reflected.php"></a>VULN-016 - 反射型XSS - <code>/modules/xss/reflected.php</code></h3><p><strong>风险等级：中危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>modules/xss/reflected.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第21行：<code>echo $_GET[&#39;q&#39;];</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">用户输入直接输出到页面，存在反射型XSS漏洞。</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞验证</strong></td>
+<td align="left">访问：<code>http://target.com/xss/reflected.php?q=&lt;script&gt;alert(1)&lt;/script&gt;</code></td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">使用<code>htmlspecialchars()</code>函数编码输出：<code>echo htmlspecialchars($_GET[&#39;q&#39;], ENT_QUOTES, &#39;UTF-8&#39;);</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><h3 id="VULN-017-配置写入漏洞-setup-install-php"><a href="#VULN-017-配置写入漏洞-setup-install-php" class="headerlink" title="VULN-017 - 配置写入漏洞 - /setup/install.php"></a>VULN-017 - 配置写入漏洞 - <code>/setup/install.php</code></h3><p><strong>风险等级：高危</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>漏洞文件</strong></td>
+<td align="left"><code>/setup/install.php</code></td>
+</tr>
+<tr>
+<td align="left"><strong>相关代码</strong></td>
+<td align="left">第10-14行：获取数据库配置参数 第57行：拼接配置文件内容 第64行：<code>file_put_contents(__DIR__ . &#39;/../config/config.inc.php&#39;, $configPHP);</code></td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞描述</strong></td>
+<td align="left">安装脚本将用户输入的数据库配置写入配置文件，虽然使用了<code>addslashes</code>但保护不足，可能被用于路径遍历或配置文件污染。</td>
+</tr>
+<tr>
+<td align="left"><strong>漏洞验证</strong></td>
+<td align="left">在安装过程中注入恶意配置参数</td>
+</tr>
+<tr>
+<td align="left"><strong>修复建议</strong></td>
+<td align="left">1. 安装完成后立即删除或禁用<code>install.php</code> 2. 对输入参数进行严格验证 3. 设置配置文件权限为644 4. 使用更安全的序列化方式存储配置</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="修复建议汇总"><a href="#修复建议汇总" class="headerlink" title="修复建议汇总"></a>修复建议汇总</h2><h3 id="紧急（严重）"><a href="#紧急（严重）" class="headerlink" title="紧急（严重）"></a>紧急（严重）</h3><ol>
+<li><strong>VULN-001, VULN-010</strong>：立即移除或严格限制命令执行和eval功能</li>
+<li><strong>VULN-004, VULN-008, VULN-012</strong>：修复文件包含、变量覆盖和反序列化漏洞</li>
+<li><strong>VULN-011</strong>：使用参数化查询修复SQL注入</li>
+<li><strong>VULN-015</strong>：立即禁用任意文件写入功能</li>
+</ol>
+<h3 id="重要（高危）"><a href="#重要（高危）" class="headerlink" title="重要（高危）"></a>重要（高危）</h3><ol>
+<li><strong>VULN-002, VULN-007</strong>：修复HTTP头注入和邮件注入</li>
+<li><strong>VULN-003, VULN-009</strong>：加强文件访问控制</li>
+<li><strong>VULN-013</strong>：加强文件上传验证机制</li>
+<li><strong>VULN-014</strong>：修复任意文件读取漏洞</li>
+<li><strong>VULN-017</strong>：加固安装脚本安全性</li>
+</ol>
+<h3 id="常规（中危）"><a href="#常规（中危）" class="headerlink" title="常规（中危）"></a>常规（中危）</h3><ol>
+<li><strong>VULN-005, VULN-006</strong>：实现输出编码，防止XSS攻击</li>
+<li><strong>VULN-016</strong>：修复反射型XSS漏洞</li>
+</ol>
+<h2 id="整体风险评估"><a href="#整体风险评估" class="headerlink" title="整体风险评估"></a>整体风险评估</h2><p><strong>风险极高</strong> - 该项目存在严重的安全问题，多个漏洞可导致服务器被完全控制。建议立即停止生产环境使用，完成所有高危漏洞修复后再重新部署，（但用于学习熟练操作为主）。</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>PHP-Code-Sec靶场代码审计报告</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://moshsasa.github.io/2025/11/11/PHP-Code-Sec%E9%9D%B6%E5%9C%BA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">http://moshsasa.github.io/2025/11/11/PHP-Code-Sec靶场代码审计/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>MosHSasA</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-11-11</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-11-12</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://pic-bed-3yk.pages.dev/img/p13.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/11/04/sql-libs%E9%9D%B6%E5%9C%BA%EF%BC%881-10%EF%BC%89/" title="sql-libs靶场（1-10）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sql-libs靶场（1-10）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MosHSasA</div><div class="author-info__description">Pick the stars ⭐️⭐️⭐️</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MosHSasA"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MosHSasA" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1258830590@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to MosHSasA_Blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-Code-Sec%E9%9D%B6%E5%9C%BA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-text">PHP-Code-Sec靶场代码审计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%A7%E8%A1%8C%E6%91%98%E8%A6%81"><span class="toc-text">1. 执行摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%A1%E8%AE%A1%E8%8C%83%E5%9B%B4%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="toc-text">2. 审计范围与方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%BC%8F%E6%B4%9E%E8%AF%A6%E6%83%85"><span class="toc-text">3. 漏洞详情</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULU-001-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-modules-command-index-php"><span class="toc-text">VULU-001 - 命令执行 - &#x2F;modules&#x2F;command&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-002-HTTP-header%E6%B3%A8%E5%85%A5-modules-cors-index-php"><span class="toc-text">VULN-002 - HTTP header注入 - &#x2F;modules&#x2F;cors&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-003-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96-modules-doubleparse-index-php"><span class="toc-text">VULN-003 - 文件读取 - &#x2F;modules&#x2F;doubleparse&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-004-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-modules-fi-index-php"><span class="toc-text">VULN-004 - 文件包含 - &#x2F;modules&#x2F;fi&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-005-XSS%E6%BC%8F%E6%B4%9E-modules-hpp-index-php"><span class="toc-text">VULN-005 - XSS漏洞 - &#x2F;modules&#x2F;hpp&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-006-XSS%E6%BC%8F%E6%B4%9E-modules-idor-user-php"><span class="toc-text">VULN-006 - XSS漏洞 - &#x2F;modules&#x2F;idor&#x2F;user.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-007-%E5%8D%8F%E8%AE%AE%E6%B3%A8%E5%85%A5-modules-mail-index-php"><span class="toc-text">VULN-007 - 协议注入 - &#x2F;modules&#x2F;mail&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-008-extract%E6%BB%A5%E7%94%A8-modules-override-index-php"><span class="toc-text">VULN-008 - extract滥用 - &#x2F;modules&#x2F;override&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-009-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96-modules-path-index-php"><span class="toc-text">VULN-009 - 文件读取 - &#x2F;modules&#x2F;path&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-010-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C-modules-rce-eval-php"><span class="toc-text">VULN-010 - 远程代码执行 - &#x2F;modules&#x2F;rce&#x2F;eval.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-011-SQL%E6%B3%A8%E5%85%A5-modules-sqli-index-php"><span class="toc-text">VULN-011 - SQL注入 - &#x2F;modules&#x2F;sqli&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-012-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-modules-unserialize-index-php"><span class="toc-text">VULN-012 - 反序列化漏洞 - &#x2F;modules&#x2F;unserialize&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-013-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E-modules-upload-index-php"><span class="toc-text">VULN-013 - 文件上传漏洞 - &#x2F;modules&#x2F;upload&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-014-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96-modules-wrapper-index-php"><span class="toc-text">VULN-014 - 任意文件读取 - &#x2F;modules&#x2F;wrapper&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-015-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5-modules-write-index-php"><span class="toc-text">VULN-015 - 任意文件写入 - &#x2F;modules&#x2F;write&#x2F;index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-016-%E5%8F%8D%E5%B0%84%E5%9E%8BXSS-modules-xss-reflected-php"><span class="toc-text">VULN-016 - 反射型XSS - &#x2F;modules&#x2F;xss&#x2F;reflected.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VULN-017-%E9%85%8D%E7%BD%AE%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E-setup-install-php"><span class="toc-text">VULN-017 - 配置写入漏洞 - &#x2F;setup&#x2F;install.php</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE%E6%B1%87%E6%80%BB"><span class="toc-text">修复建议汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A7%E6%80%A5%EF%BC%88%E4%B8%A5%E9%87%8D%EF%BC%89"><span class="toc-text">紧急（严重）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%EF%BC%88%E9%AB%98%E5%8D%B1%EF%BC%89"><span class="toc-text">重要（高危）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%EF%BC%88%E4%B8%AD%E5%8D%B1%EF%BC%89"><span class="toc-text">常规（中危）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0"><span class="toc-text">整体风险评估</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By MosHSasA</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer src="/js/light.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/Python/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 MosHSasAのPython学习 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/Web前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 MosHSasAのWeb前端学习 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/PHP/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 MosHSasAのPHP入门 (7)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/TOP-TEN/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">👩‍💻 MosHSasAの漏洞学习 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://MosHSasA.github.io/categories/随想/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 MosHSasAの胡思乱想 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="http://MosHSasA.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #1A1818;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #ffd700}.magnet_link_more{color:#555}.magnet_link{color:white}.magnet_link:hover{color:black}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/04/16/Python学习--字典/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p12.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-16</span><a class="blog-slider__title" href="2025/04/16/Python学习--字典/" alt="">Python学习--字典</a><div class="blog-slider__text">🎄理解有关Python字典工作原理</div><a class="blog-slider__button" href="2025/04/16/Python学习--字典/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/26/Python学习-列表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p9.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-26</span><a class="blog-slider__title" href="2025/03/26/Python学习-列表/" alt="">Python学习--列表</a><div class="blog-slider__text">🥪理解列表和元组等序列数据类型</div><a class="blog-slider__button" href="2025/03/26/Python学习-列表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/21/Python基础/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p3.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-21</span><a class="blog-slider__title" href="2025/03/21/Python基础/" alt="">Python学习--基础</a><div class="blog-slider__text">🎃本文列举了一些关于Python的基础概念</div><a class="blog-slider__button" href="2025/03/21/Python基础/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/22/Python学习--控制流/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p8.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-22</span><a class="blog-slider__title" href="2025/03/22/Python学习--控制流/" alt="">Python学习--控制流</a><div class="blog-slider__text">✨理解Python中的流程控制，让单条指令成为一系列指令</div><a class="blog-slider__button" href="2025/03/22/Python学习--控制流/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/03/24/Python学习--函数/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic-bed-3yk.pages.dev/img/p7.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-24</span><a class="blog-slider__title" href="2025/03/24/Python学习--函数/" alt="">Python学习--函数</a><div class="blog-slider__text">🎷理解有关Python自定义函数的工作原理</div><a class="blog-slider__button" href="2025/03/24/Python学习--函数/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInLeft');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '0.5s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInRight');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('pagination');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__rotateInDownLeft');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
